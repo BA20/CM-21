@@ -19,13 +19,13 @@
 
         <ImageView
             android:id="@+id/header_title"
-            android:layout_width="wrap_content"
-            android:layout_height="573dp"
+            android:layout_width="485dp"
+            android:layout_height="273dp"
             android:src="@drawable/welcome" />
 
         <TextView
             android:id="@+id/welcome"
-            android:layout_width="match_parent"
+            android:layout_width="485dp"
             android:layout_height="24dp"
             android:layout_below="@+id/header_title"
             android:layout_marginTop="5dp"
@@ -37,10 +37,13 @@
 
         <ImageButton
             android:id="@+id/imageButton"
-            android:layout_width="match_parent"
+            android:layout_width="243dp"
             android:layout_height="match_parent"
-            android:layout_below="@+id/welcome"
-            android:layout_marginTop="5dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginTop="19dp"
+            android:layout_toEndOf="@+id/header_title"
+            android:layout_toRightOf="@+id/header_title"
             android:background="@color/white"
             app:srcCompat="@drawable/baseline_keyboard_arrow_right" />
 
