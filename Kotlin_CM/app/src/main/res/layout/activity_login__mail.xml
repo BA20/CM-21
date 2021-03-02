@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:onClick="btn_toEmail"
-    tools:context=".MainActivity">
-
+    tools:context=".Login_Mail">
     <RelativeLayout
         android:id="@+id/relativeLayout"
         android:layout_width="0dp"
@@ -24,27 +22,33 @@
             android:layout_height="573dp"
             android:src="@drawable/welcome" />
 
-        <TextView
-            android:id="@+id/welcome"
-            android:layout_width="match_parent"
-            android:layout_height="24dp"
+
+        <EditText
+            android:id="@+id/editTextEmail"
+            android:layout_width="386dp"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/header_title"
-            android:layout_marginTop="5dp"
-            android:gravity="center"
-            android:text="@string/Welcome"
-            android:textColor="@color/My_rose"
-            android:textColorHighlight="@color/My_rose"
-            android:textStyle="normal" />
+            android:layout_marginTop="14dp"
+            android:layout_marginLeft="14dp"
+            android:layout_marginRight="14dp"
+            android:backgroundTint="@color/My_rose"
+            android:ems="10"
+            android:inputType="textEmailAddress"
+            android:text="E-mail"
+            android:textColor="@color/My_rose"/>
 
         <ImageButton
-            android:id="@+id/imageButton"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/welcome"
-            android:layout_marginTop="5dp"
-            android:background="@color/white"
-            android:onClick="btn_toemail"
-            app:srcCompat="@drawable/baseline_keyboard_arrow_right" />
+               android:id="@+id/imageButton"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:layout_below="@+id/editTextEmail"
+               android:layout_marginTop="5dp"
+
+               android:background="@color/white"
+               app:srcCompat="@drawable/baseline_keyboard_arrow_right" />
+
+
 
     </RelativeLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
