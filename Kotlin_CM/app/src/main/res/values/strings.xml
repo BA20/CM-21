@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Kotlin_CM</string>
     <string name="Welcome" translatable="false">Welcome!</string>
+    <string name="title_activity_main__reports">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 </resources>

@@ -33,9 +33,10 @@
             android:layout_marginRight="14dp"
             android:backgroundTint="@color/My_rose"
             android:ems="10"
-            android:inputType="textEmailAddress"
-            android:text="E-mail"
-            android:textColor="@color/My_rose"/>
+            android:textColor="@color/My_rose"
+            android:hint="E-mail"
+            android:textColorHint="@color/holder_claro"
+            />
 
         <ImageButton
                android:id="@+id/imageButton"

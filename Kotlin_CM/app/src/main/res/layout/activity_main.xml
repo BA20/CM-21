@@ -29,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="24dp"
             android:layout_below="@+id/header_title"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="14dp"
             android:gravity="center"
             android:text="@string/Welcome"
             android:textColor="@color/My_rose"

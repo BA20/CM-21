@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".Login_Mail">
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
@@ -14,8 +14,10 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
         <ImageView
             android:id="@+id/header_title"
@@ -23,30 +25,31 @@
             android:layout_height="287dp"
             android:src="@drawable/land_vc2" />
 
-        <TextView
-            android:id="@+id/welcome"
-            android:layout_width="match_parent"
+
+        <EditText
+            android:id="@+id/editTextEmail"
+            android:layout_width="386dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/header_title"
             android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="237dp"
-            android:gravity="center"
-            android:text="@string/Welcome"
+            android:backgroundTint="@color/My_rose"
+            android:ems="10"
+            android:gravity="clip_vertical|start"
+            android:hint="E-mail"
             android:textColor="@color/My_rose"
-            android:textColorHighlight="@color/My_rose"
-            android:textSize="30sp"
-            android:textStyle="normal" />
+            android:textColorHint="@color/holder_claro"/>
+
         <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/welcome"
-        android:layout_marginTop="5dp"
-        android:background="@color/white"
-        app:srcCompat="@drawable/baseline_keyboard_arrow_right"
-            android:onClick="btn_toemail"
-            />
+            android:id="@+id/imageButton"
+            android:layout_width="match_parent"
+            android:layout_height="122dp"
+            android:layout_below="@+id/editTextEmail"
+            android:layout_marginTop="7dp"
+            android:background="@color/white"
+            app:srcCompat="@drawable/baseline_keyboard_arrow_right" />
 
 
     </RelativeLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
