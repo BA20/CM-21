@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<item
+    android:id="@+id/ic_warning"
+    android:icon="@drawable/ic_baseline_warning_24"
+    android:title="Reports"></item>
+    <item
+        android:id="@+id/ic_notes"
+        android:icon="@drawable/ic_baseline_notes_24"
+        android:title="@string/notas"></item>
+    <item
+        android:id="@+id/ic_account"
+        android:icon="@drawable/ic_baseline_account_circle_24"
+        android:title="@string/conta"></item>
+</menu>
