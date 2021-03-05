@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Kotlin_CM</string>
+    <string name="Welcome" translatable="false">Welcome!</string>
+</resources>
