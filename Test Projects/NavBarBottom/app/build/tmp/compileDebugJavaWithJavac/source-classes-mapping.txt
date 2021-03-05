@@ -1,0 +1,2 @@
+ba/ipvc/navbarbottom/BuildConfig.java
+ ba.ipvc.navbarbottom.BuildConfig
