@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">ReportsApp</string>
+    <string name="welcome">Welcome!</string>
+    <string name="appname">ReportsApp</string>
+    <string name="login">Sign in</string>
+    <string name="Resgitar">Sign up</string>
+    <string name="titleNotes">Notes</string>
+    <string name="password">Password</string>
+</resources>

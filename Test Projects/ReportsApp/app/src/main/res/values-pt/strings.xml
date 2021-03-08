@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ReportsApp</string>
+    <string name="welcome">Bem-Vindo!</string>
+    <string name="appname">ReportsApp</string>
+    <string name="login">Entrar</string>
+    <string name="Resgitar">Registar-me</string>
+    <string name="titleNotes">Notas</string>
+    <string name="password">Palavra-Passe</string>
+</resources>
