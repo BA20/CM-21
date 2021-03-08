@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
 
         // view model
         cityViewModel = ViewModelProvider(this).get(CityViewModel::class.java)
-        cityViewModel.allC ties.observe(this, Observer { cities ->
+        cityViewModel.AllCities.observe(this, Observer { cities ->
             // Update the cached copy of the words in the adapter.
             cities?.let { adapter.setCities(it) }
         })
