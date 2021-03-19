@@ -17,7 +17,7 @@ import kotlin.reflect.KParameter
 // Note: When you modify the database schema, you'll need to update the version number and define a migration strategy
 //For a sample, a destroy and re-create strategy can be sufficient. But, for a real app, you must implement a migration strategy.
 
-@Database(entities = [Notes::class], version = 8, exportSchema = false)
+@Database(entities = [Notes::class], version = 9, exportSchema = false)
 public abstract class NotesDB : RoomDatabase() {
     abstract fun notesDao(): notesDao?
 

@@ -10,7 +10,6 @@ data class Notes(
         @PrimaryKey(autoGenerate = true) val uid: Int? = null,
         @ColumnInfo(name = "Title") val Title: String?,
         @ColumnInfo(name = "Description") val Description: String?,
-        @ColumnInfo(name = "DateAdd") val DateAdd: String?,
         @ColumnInfo(name = "DateMod") val DateMod: String?
 
 )

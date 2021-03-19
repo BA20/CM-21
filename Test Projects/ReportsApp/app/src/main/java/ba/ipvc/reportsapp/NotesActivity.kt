@@ -60,11 +60,11 @@ class NotesActivity : AppCompatActivity(), NoteAdapter.CallbackInterface {
                     val pdesc = data?.getStringExtra(AddNoteActivity.EXTRA_REPLY_DESC)
 
 
+
                     if (ptitulo != null && pdesc != null) {
                         val not = Notes(
                             Title = ptitulo.toString(),
                             Description = pdesc.toString(),
-                            DateAdd = mydate.toString(),
                             DateMod = mydate.toString())
                         notesViewModel.insertNote(not)
 
