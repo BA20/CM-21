@@ -11,7 +11,7 @@ class Login_Notes : AppCompatActivity() {
         setContentView(R.layout.activity_login__notes)
     }
     fun btnnotes(view: View) {
-        val intent = Intent(this, Notes::class.java).apply {
+        val intent = Intent(this, NotesActivity::class.java).apply {
 
         }
         startActivity(intent)

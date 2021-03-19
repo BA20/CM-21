@@ -7,4 +7,7 @@
     <string name="Resgitar">Registar-me</string>
     <string name="titleNotes">Notas</string>
     <string name="password">Palavra-Passe</string>
+    <string name="addnote">Adicionar Nota</string>
+    <string name="titulo">Titulo</string>
+    <string name="descricao">Descrição</string>
 </resources>

@@ -2,42 +2,69 @@
 <RelativeLayout android:layout_height="wrap_content" android:layout_width="match_parent" xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TextView
+        android:id="@+id/nome"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
         android:text="Nota"
-        android:textStyle="bold"
-        android:layout_margin="10dp"
-        android:id="@+id/nome"> </TextView>
+        android:textColor="@color/colorOnPrimary"
+        android:textStyle="bold"></TextView>
 
-    <TextView android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:text="06.03.2021"
+    <TextView
+        android:id="@+id/descricao"
+        android:layout_width="205dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_toEndOf="@+id/nome"
+        android:layout_toRightOf="@+id/nome"
+        android:text="DESC"
+        android:textSize="8sp"></TextView>
+
+    <TextView
         android:id="@+id/data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/nome"
         android:layout_alignLeft="@+id/nome"
-        android:layout_below="@id/nome"> </TextView>
+        android:text="06.03.2021"
+        android:textColor="@color/colorPrimaryVariant"></TextView>
+
 
     <ImageButton
         android:id="@+id/delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="0dp"
-        android:layout_marginRight="50dp"
-        android:src="@drawable/ic_baseline_delete_forever_24"/>
+        android:layout_marginTop="19dp"
+        android:onClick="ban_delete"
+        android:layout_marginEnd="21dp"
+        android:layout_marginRight="21dp"
+        android:background="#FFFFFF"
+        android:src="@drawable/ic_baseline_delete_forever_24"
+        android:tint="@color/colorOnPrimary" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/delete"
-        android:layout_alignParentRight="true"
         android:layout_marginStart="314dp"
-        android:layout_marginRight="10dp"
-        android:layout_toEndOf="@+id/name"
-        android:layout_toRightOf="@+id/name"
-        android:src="@drawable/ic_baseline_create_24"/>
-
-
+        android:layout_marginLeft="314dp"
+        android:layout_marginEnd="56dp"
+        android:layout_marginRight="56dp"
+        android:background="#FFFFFF"
+        android:src="@drawable/ic_baseline_create_24"
+        android:tint="@color/colorOnPrimary" />
 
 
 </RelativeLayout>
