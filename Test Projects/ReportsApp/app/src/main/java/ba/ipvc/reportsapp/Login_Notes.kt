@@ -16,5 +16,11 @@ class Login_Notes : AppCompatActivity() {
         }
         startActivity(intent)
     }
+    fun btnnMap(view: View) {
+        val intent = Intent(this, MapsActivity::class.java).apply {
+
+        }
+        startActivity(intent)
+    }
 
 }
