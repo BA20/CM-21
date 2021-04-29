@@ -8,6 +8,8 @@ import retrofit2.http.*
 interface EndPoints {
 
     @GET("/reportsAll/")
-    fun getReports() : Call<List<>>
+    fun getReports() : Call<List<Report>>
+
+
 
 }

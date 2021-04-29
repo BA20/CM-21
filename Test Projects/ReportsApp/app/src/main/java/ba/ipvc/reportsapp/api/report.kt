@@ -1,6 +1,6 @@
 package ba.ipvc.reportsapp.api
 
-data class report (
+data class Report (
     val id: Int,
     val titulo: String,
     val descricao: String,
