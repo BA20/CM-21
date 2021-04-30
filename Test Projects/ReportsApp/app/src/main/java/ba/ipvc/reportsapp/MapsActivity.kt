@@ -2,6 +2,10 @@ package ba.ipvc.reportsapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
+import ba.ipvc.reportsapp.api.EndPoints
+import ba.ipvc.reportsapp.api.Report
+import ba.ipvc.reportsapp.api.ServiceBuilder
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -9,10 +13,17 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import retrofit2.Call
+import retrofit2.Callback
+
+import retrofit2.Response
+
+
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
+    private lateinit var reports: List<Report>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,6 +32,28 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+
+        val request  = ServiceBuilder.buildService(EndPoints::class.java)
+        val call = request.getReports()
+        var position: LatLng
+
+
+        call.enqueue(object : Callback<List<Report>> { override fun onResponse(call: Call<List<Report>>, response: Response<List<Report>>) {
+    if(response.isSuccessful){
+        reports= response.body()!!
+        for(report in reports){
+            position = LatLng(report.lat.toString().toDouble(),report.lng.toString().toDouble())
+            mMap.addMarker(MarkerOptions().position(position).title(report.titulo.toString() + " : " + report.descr))
+        }
+    }
+           }
+            override fun onFailure(call: Call<List<Report>>, t: Throwable){
+                Toast.makeText(this@MapsActivity, "${t.message}", Toast.LENGTH_LONG).show()
+
+            }
+
+        })
     }
 
     /**
