@@ -11,4 +11,10 @@
     <string name="descricao">Description</string>
     <string name="UpdateNote">Edit</string>
     <string name="title_activity_maps">Map</string>
+    <string name="sharedPref" />
+    <string name="userlogged">Login Successful</string>
+    <string name="emptyField">Empty Field</string>
+    <string name="EmailEmpty">Email Empty</string>
+    <string name="PassEmpty">Password Empty</string>
+    <string name="BadLogin">Email or Password Wrong!</string>
 </resources>

@@ -2,22 +2,25 @@ package ba.ipvc.reportsapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import ba.ipvc.reportsapp.api.EndPoints
 import ba.ipvc.reportsapp.api.Report
 import ba.ipvc.reportsapp.api.ServiceBuilder
 
+
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import retrofit2.Call
 import retrofit2.Callback
 
 import retrofit2.Response
-
 
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -30,26 +33,34 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         setContentView(R.layout.activity_maps)
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
-            .findFragmentById(R.id.map) as SupportMapFragment
+                .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
 
-        val request  = ServiceBuilder.buildService(EndPoints::class.java)
+        val request = ServiceBuilder.buildService(EndPoints::class.java)
         val call = request.getReports()
         var position: LatLng
+        Log.d("ERRO", "OLA")
 
 
-        call.enqueue(object : Callback<List<Report>> { override fun onResponse(call: Call<List<Report>>, response: Response<List<Report>>) {
-    if(response.isSuccessful){
-        reports= response.body()!!
-        for(report in reports){
-            position = LatLng(report.lat.toString().toDouble(),report.lng.toString().toDouble())
-            mMap.addMarker(MarkerOptions().position(position).title(report.titulo.toString() + " : " + report.descr))
-        }
-    }
-           }
-            override fun onFailure(call: Call<List<Report>>, t: Throwable){
+        call.enqueue(object : Callback<List<Report>> {
+
+            override fun onResponse(call: Call<List<Report>>, response: Response<List<Report>>) {
+
+                if (response.isSuccessful) {
+
+                    reports = response.body()!!
+                    for (report in reports) {
+
+                        position = LatLng(report.lat.toDouble(), report.lng.toDouble())
+                        mMap.addMarker(MarkerOptions().position(position).title(report.titulo.toString() + " : " + report.descr))
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<List<Report>>, t: Throwable) {
                 Toast.makeText(this@MapsActivity, "${t.message}", Toast.LENGTH_LONG).show()
+
 
             }
 
