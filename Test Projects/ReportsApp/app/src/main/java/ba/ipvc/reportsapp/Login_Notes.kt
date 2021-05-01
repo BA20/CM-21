@@ -39,7 +39,7 @@ class Login_Notes : AppCompatActivity() {
     }
 
     fun login(view: View) {
-        Log.d("asd", "asd")
+
         val intent = Intent(this, MapsActivity::class.java)
         val user = findViewById<EditText>(R.id.Email).text.toString()
         val pass = findViewById<EditText>(R.id.Password).text.toString()
@@ -48,7 +48,7 @@ class Login_Notes : AppCompatActivity() {
         val sharedPref: SharedPreferences = getSharedPreferences(
                 getString(R.string.sharedPref), Context.MODE_PRIVATE
         )
-        Log.d("Entrou", "NETRO")
+
         when {
             TextUtils.isEmpty(Email.text) -> {
                 Toast.makeText(this@Login_Notes, R.string.EmailEmpty, Toast.LENGTH_SHORT).show()
@@ -91,8 +91,8 @@ class Login_Notes : AppCompatActivity() {
 
 
     }
-    fun btnMAps(view: View){
-        val intent = Intent(this, MapsActivity::class.java).apply {
+    fun btnRegistar(view: View){
+        val intent = Intent(this, ResgitarActivity::class.java).apply {
 
         }
         startActivity(intent)
