@@ -29,7 +29,7 @@ class ResgitarActivity : AppCompatActivity() {
         val request = ServiceBuilder.buildService(EndPoints::class.java)
         val call = request.signup(user, pass)
 
-        Log.d("Registar", "ENTROU")
+        Log.d("Registar2", "ENTROU")
         when {
             TextUtils.isEmpty(Email.text) -> {
                 Toast.makeText(this@ResgitarActivity, R.string.EmailEmpty, Toast.LENGTH_SHORT).show()
