@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Login_Notes">
+    tools:context=".ResgitarActivity">
+
     <RelativeLayout
         android:id="@+id/relativeLayout"
         android:layout_width="0dp"
@@ -23,8 +24,8 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             app:srcCompat="@drawable/cone"
-            tools:ignore="VectorDrawableCompat"></ImageView>
-
+            tools:ignore="VectorDrawableCompat">
+        </ImageView>
 
         <TextView
             android:id="@+id/Login"
@@ -36,7 +37,7 @@
 
             android:layout_below="@+id/header_title"
             android:gravity="left"
-            android:text="@string/login"
+            android:text="@string/signup"
             android:textSize="28sp"
             android:textStyle="normal"
 
@@ -66,43 +67,20 @@
             android:hint="@string/password"
             />
 
-        <Button
-            android:text="@string/login"
-            android:id="@+id/loginBtn"
-            android:layout_width="match_parent"
-            android:layout_height="75dp"
-            android:layout_below="@+id/Password"
-            android:layout_marginTop="14dp"
-            android:background="@color/white"
 
-            android:onClick="login"
-            android:src="@drawable/ic_baseline_arrow_forward_24" />
 
         <Button
             android:id="@+id/ResgisterBtn"
             android:layout_width="match_parent"
             android:layout_height="75dp"
-            android:layout_below="@+id/loginBtn"
+            android:layout_below="@+id/Password"
             android:layout_marginTop="14dp"
             android:text="@string/Resgitar"
-            android:onClick="btnRegistar"
+            android:onClick="registar"
             android:textColor="@color/black"
             app:iconTint="@android:color/secondary_text_light" />
 
-        <ImageButton
-            android:id="@+id/imageButton"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/ResgisterBtn"
-            android:layout_marginTop="14dp"
-            android:background="@color/white"
-
-            android:onClick="btnnotes"
-            android:src="@drawable/ic_baseline_notes_24" />
-
-
     </RelativeLayout>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

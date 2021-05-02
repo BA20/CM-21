@@ -1,9 +1,6 @@
 package ba.ipvc.reportsapp.api
- data class User {
-     val id:
-
-<<<<<<< Updated upstream
- }
-=======
-asd
->>>>>>> Stashed changes
+ data class User (
+     val id: Int,
+     val username: String,
+     val password: String
+ )

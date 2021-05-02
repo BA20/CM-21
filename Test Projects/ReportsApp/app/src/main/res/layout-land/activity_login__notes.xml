@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Login_Notes">
+
     <RelativeLayout
         android:id="@+id/relativeLayout"
         android:layout_width="0dp"
@@ -31,35 +32,36 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:layout_marginLeft="14dp"
-            android:layout_marginRight="14dp"
-
             android:layout_below="@+id/header_title"
+            android:layout_marginLeft="14dp"
+
+            android:layout_marginRight="14dp"
             android:gravity="left"
-            android:text="@string/login"
-            android:textSize="28sp"
-            android:textStyle="normal"
             android:hint="E-mail"
+            android:text="@string/login"
             android:textColorHint="@color/black"
-            />
+            android:textSize="28sp"
+            android:textStyle="normal" />
+
         <EditText
             android:id="@+id/Email"
-            android:layout_marginLeft="14dp"
-            android:layout_marginRight="14dp"
-            android:layout_below="@+id/Login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/Login"
+            android:layout_marginLeft="14dp"
+            android:layout_marginRight="14dp"
             android:ems="10"
             android:inputType="textEmailAddress"
             tools:layout_editor_absoluteX="124dp"
             tools:layout_editor_absoluteY="91dp" />
+
         <EditText
             android:id="@+id/Password"
-            android:layout_marginLeft="14dp"
-            android:layout_marginRight="14dp"
-            android:layout_below="@+id/Email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/Email"
+            android:layout_marginLeft="14dp"
+            android:layout_marginRight="14dp"
             android:ems="10"
             android:inputType="textPassword" />
 
@@ -70,7 +72,7 @@
             android:layout_below="@+id/Password"
             android:layout_marginTop="4dp"
             android:background="@color/white"
-
+            android:onClick="login"
             android:src="@drawable/ic_baseline_arrow_forward_24" />
 
         <Button
@@ -80,6 +82,7 @@
             android:layout_below="@+id/loginBtn"
             android:layout_marginTop="4dp"
             android:text="@string/Resgitar"
+            android:onClick="btnRegistar"
             android:textColor="@color/black"
             app:iconTint="@android:color/secondary_text_light" />
 
@@ -96,7 +99,6 @@
 
 
     </RelativeLayout>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

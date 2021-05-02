@@ -11,4 +11,12 @@
     <string name="titulo">Titulo</string>
     <string name="descricao">Descrição</string>
     <string name="UpdateNote">Editar</string>
+    <string name="userlogged">Sessão Iniciada!</string>
+    <string name="emptyField">Campos Vazios!</string>
+    <string name="EmailEmpty">Email Vazio!</string>
+    <string name="PassEmpty">Password Vazia!</string>
+    <string name="BadLogin">Email ou Palavra-Passe erradas!</string>
+    <string name="BadResgister">Erro no Registo!</string>
+    <string name="signup">Registar</string>
+    <string name="title_activity_maps">Mapa</string>
 </resources>
