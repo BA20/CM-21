@@ -83,7 +83,6 @@ class Login_Notes : AppCompatActivity() {
 
                     override fun onFailure(call: Call<Login>, t: Throwable) {
                         Toast.makeText(this@Login_Notes, "${t.message}", Toast.LENGTH_SHORT).show()
-                        Log.d("ERROU", t.message.toString())
                     }
                 })
             }

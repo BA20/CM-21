@@ -1,6 +1,5 @@
 package ba.ipvc.reportsapp.api
 
-import java.sql.SQLData
 
 data class Login (
     val username: String,

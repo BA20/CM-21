@@ -14,5 +14,8 @@ interface EndPoints {
     @POST("user")
     fun login(@Field("username") first: String?, @Field("password") second: String?): Call<Login>
 
+    @FormUrlEncoded
+    @POST("userRegister/")
+    fun signup(@Field("username") first: String?, @Field("password") second: String?):Call<Login>
 
 }

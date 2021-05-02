@@ -17,4 +17,6 @@
     <string name="EmailEmpty">Email Empty</string>
     <string name="PassEmpty">Password Empty</string>
     <string name="BadLogin">Email or Password Wrong!</string>
+    <string name="BadResgister">Register Error!</string>
+    <string name="signup">Sign Up</string>
 </resources>

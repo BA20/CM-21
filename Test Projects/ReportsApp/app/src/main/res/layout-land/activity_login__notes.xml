@@ -82,6 +82,7 @@
             android:layout_below="@+id/loginBtn"
             android:layout_marginTop="4dp"
             android:text="@string/Resgitar"
+            android:onClick="btnRegistar"
             android:textColor="@color/black"
             app:iconTint="@android:color/secondary_text_light" />
 
