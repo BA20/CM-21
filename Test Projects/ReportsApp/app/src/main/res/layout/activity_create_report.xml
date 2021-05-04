@@ -29,7 +29,7 @@
         android:layout_marginLeft="100dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="@string/titulo"
+        android:hint="@string/titulo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textNotes"
         tools:ignore="MissingConstraints" />
@@ -43,7 +43,7 @@
         android:layout_marginTop="20dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="@string/descricao"
+        android:hint="@string/descricao"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Rtitle"
         tools:ignore="MissingConstraints" />

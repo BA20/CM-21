@@ -43,11 +43,11 @@ class ResgitarActivity : AppCompatActivity() {
 
                 call.enqueue(object : Callback<SignUp> {
                     override fun onResponse(call: Call<SignUp>, response: Response<SignUp>) {
-                        Log.d("Registar", "FEZ")
+
                         if (response.isSuccessful) {
-                            Log.d("Registar", "RESPONSE SUCESSFULL")
+
                             if (response.body()!!.status) {
-                                Log.d("Registar", "MUDAR")
+
                                 startActivity(intent)
                                 finish()
                             } else {

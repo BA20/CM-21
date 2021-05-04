@@ -9,16 +9,22 @@ import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.core.graphics.drawable.toBitmap
 import ba.ipvc.reportsapp.api.EndPoints
+import ba.ipvc.reportsapp.api.Report
+import ba.ipvc.reportsapp.api.outputReport
 import ba.ipvc.reportsapp.api.ServiceBuilder
 import kotlinx.android.synthetic.main.activity_create_report.*
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.io.*
 
 class CreateReportActivity : AppCompatActivity() {
@@ -89,7 +95,7 @@ class CreateReportActivity : AppCompatActivity() {
         val sharedPref: SharedPreferences = getSharedPreferences(
             getString(R.string.sharedPref), Context.MODE_PRIVATE
         )
-
+        val intent = Intent(this, MapsActivity::class.java)
         val imgBitmap: Bitmap = findViewById<ImageView>(R.id.imageView).drawable.toBitmap()
         val imgFile: File = convertBitmapToFile("file", imgBitmap)
         val imgFileRequest: RequestBody = RequestBody.create(MediaType.parse("image/*"), imgFile)
@@ -117,9 +123,49 @@ class CreateReportActivity : AppCompatActivity() {
             MediaType.parse("multipart/form-data"),
             spinner.selectedItem.toString()
         )
-        Log.d("BRAVO ", spinner.selectedItem.toString())
+
         val request = ServiceBuilder.buildService(EndPoints::class.java)
         val call = request.createR(titulo, descricao, lat, lng, imagem, userid, tipo)
+
+        when {
+            TextUtils.isEmpty(Rtitle.text) -> {
+                Toast.makeText(this@CreateReportActivity, R.string.TitleEmpty, Toast.LENGTH_SHORT).show()
+            }
+            TextUtils.isEmpty(rdescricao.text) -> {
+                Toast.makeText(this@CreateReportActivity, R.string.descEmpty, Toast.LENGTH_SHORT).show()
+            }
+            else -> {
+                call.enqueue(object : Callback<Report> {
+                    override fun onResponse(call: Call<Report>, response: Response<Report>) {
+
+                        if (response.isSuccessful) {
+                            if (response.body()!!.status) {
+                                startActivity(intent)
+                                finish()
+                            } else {
+                                Toast.makeText(
+                                    this@CreateReportActivity,
+                                    R.string.BadCreate,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+
+                    }
+
+
+
+                    override fun onFailure(call: Call<Report>, t: Throwable) {
+                        Toast.makeText(this@CreateReportActivity, "${t.message}", Toast.LENGTH_SHORT).show()
+                        Log.d("Errou", "${t.message}")
+                    }
+
+                })
+            }
+        }
+
+
+
 
     }
 
@@ -135,3 +181,5 @@ class CreateReportActivity : AppCompatActivity() {
     }
 
 }
+
+
