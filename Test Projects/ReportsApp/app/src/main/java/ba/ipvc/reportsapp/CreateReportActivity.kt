@@ -1,16 +1,17 @@
 package ba.ipvc.reportsapp
 
+import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.Spinner
+import android.widget.*
 import androidx.core.graphics.drawable.toBitmap
 import ba.ipvc.reportsapp.api.EndPoints
 import ba.ipvc.reportsapp.api.ServiceBuilder
@@ -21,11 +22,13 @@ import okhttp3.RequestBody
 import java.io.*
 
 class CreateReportActivity : AppCompatActivity() {
+    private val REQUEST_CODE = 12
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_report)
 
-        val spinner =   findViewById<Spinner>(R.id.spinner)
+        val spinner = findViewById<Spinner>(R.id.spinner)
         val adapter = ArrayAdapter.createFromResource(
             this,
             R.array.tipos,
@@ -37,8 +40,23 @@ class CreateReportActivity : AppCompatActivity() {
 
 
 
+        btnTakePicture.setOnClickListener {
+            val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            if (takePictureIntent.resolveActivity(this.packageManager) != null) {
+                try {
+                    startActivityForResult(takePictureIntent, REQUEST_CODE)
+                } catch (e: ActivityNotFoundException) {
+                    Log.d("ERRO CAMERA", e.toString())
+                }
+            } else {
+                Toast.makeText(this, R.string.CameraErro, Toast.LENGTH_SHORT).show()
+            }
+
+        }
+
 
     }
+
 
     private fun convertBitmapToFile(fileName: String, bitmap: Bitmap): File {
         //create a file to write bitmap data
@@ -86,12 +104,12 @@ class CreateReportActivity : AppCompatActivity() {
 
         //shared pref
 
-        val latitude : String? = sharedPref.getString(R.string.userloclat.toString(), "ERRO");
-        val longitude : String? = sharedPref.getString(R.string.userloclng.toString(),"ERRO");
+        val latitude: String? = sharedPref.getString(R.string.userloclat.toString(), "ERRO");
+        val longitude: String? = sharedPref.getString(R.string.userloclng.toString(), "ERRO");
 
 
-    val lat: RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), latitude)
-    val lng: RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), longitude)
+        val lat: RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), latitude)
+        val lng: RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), longitude)
 
         val user: Int = sharedPref.getInt(R.string.userlogged.toString(), 0)
         val userid = RequestBody.create(MediaType.parse("multipart/form-data"), user.toString())
@@ -100,10 +118,20 @@ class CreateReportActivity : AppCompatActivity() {
             spinner.selectedItem.toString()
         )
         Log.d("BRAVO ", spinner.selectedItem.toString())
-     val request = ServiceBuilder.buildService(EndPoints::class.java)
-     val call = request.createR(titulo, descricao, lat, lng , imagem, userid, tipo)
+        val request = ServiceBuilder.buildService(EndPoints::class.java)
+        val call = request.createR(titulo, descricao, lat, lng, imagem, userid, tipo)
 
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            val takenImage = data?.extras?.get("data") as Bitmap
+            imageView.setImageBitmap(takenImage)
+        } else {
+            super.onActivityResult(requestCode, resultCode, data)
+        }
+
+
+    }
 
 }

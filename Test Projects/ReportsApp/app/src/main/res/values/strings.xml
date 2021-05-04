@@ -29,6 +29,7 @@
     <string name="obras">Contruction</string>
     <string name="Buraco">Hole</string>
     <string name="Fuga">Water Leak</string>
+    <string name="CameraErro">Unable to open camera</string>
 
     <string-array name="tipos">
         <item>@string/obras</item>
