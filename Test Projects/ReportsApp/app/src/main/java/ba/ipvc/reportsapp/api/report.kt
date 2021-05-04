@@ -7,8 +7,8 @@ data class Report (
     val lat: Double,
     val lng: Double,
     val user_id: Int,
-    val tipo_id: Int,
-    val email: String,
-    val descr: String
+    val tipo: String,
+    val username: String
+
 
 )

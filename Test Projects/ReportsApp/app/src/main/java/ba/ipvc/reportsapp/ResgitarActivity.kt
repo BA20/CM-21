@@ -11,6 +11,7 @@ import android.widget.Toast
 import ba.ipvc.reportsapp.api.EndPoints
 import ba.ipvc.reportsapp.api.Login
 import ba.ipvc.reportsapp.api.ServiceBuilder
+import ba.ipvc.reportsapp.api.SignUp
 import kotlinx.android.synthetic.main.activity_login__notes.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -27,7 +28,7 @@ class ResgitarActivity : AppCompatActivity() {
         val user = findViewById<EditText>(R.id.Email).text.toString()
         val pass = findViewById<EditText>(R.id.Password).text.toString()
         val request = ServiceBuilder.buildService(EndPoints::class.java)
-        val call = request.signup(user, pass)
+        val call = request.register(user, pass)
 
         Log.d("Registar", "ENTROU")
         when {
@@ -40,8 +41,8 @@ class ResgitarActivity : AppCompatActivity() {
             }
             else -> {
 
-                call.enqueue(object : Callback<Login> {
-                    override fun onResponse(call: Call<Login>, response: Response<Login>) {
+                call.enqueue(object : Callback<SignUp> {
+                    override fun onResponse(call: Call<SignUp>, response: Response<SignUp>) {
                         Log.d("Registar", "FEZ")
                         if (response.isSuccessful) {
                             Log.d("Registar", "RESPONSE SUCESSFULL")
@@ -60,9 +61,11 @@ class ResgitarActivity : AppCompatActivity() {
 
                     }
 
-                    override fun onFailure(call: Call<Login>, t: Throwable) {
-                        Toast.makeText(this@ResgitarActivity, "${t.message}", Toast.LENGTH_SHORT).show()
 
+
+                    override fun onFailure(call: Call<SignUp>, t: Throwable) {
+                        Toast.makeText(this@ResgitarActivity, "${t.message}", Toast.LENGTH_SHORT).show()
+                            Log.d("Errou", "${t.message}")
                     }
                 })
             }

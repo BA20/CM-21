@@ -11,7 +11,7 @@
     <string name="descricao">Description</string>
     <string name="UpdateNote">Edit</string>
     <string name="title_activity_maps">Map</string>
-    <string name="sharedPref" />
+    <string name="sharedPref" translatable="false" />
     <string name="userlogged">Login Successful</string>
     <string name="emptyField">Empty Field</string>
     <string name="EmailEmpty">Email Empty</string>
@@ -19,4 +19,24 @@
     <string name="BadLogin">Email or Password Wrong!</string>
     <string name="BadResgister">Register Error!</string>
     <string name="signup">Sign Up</string>
+    <string name="CreateReport">Create Report</string>
+    <string name="userloc" translatable="false"/>
+    <string name="userloclat" translatable="false"/>
+    <string name="userloclng" translatable="false"/>
+    <string name="criarReport">Create Report</string>
+
+
+    <string name="obras">Contruction</string>
+    <string name="Buraco">Hole</string>
+    <string name="Fuga">Water Leak</string>
+
+    <string-array name="tipos">
+        <item>@string/obras</item>
+        <item>@string/Buraco</item>
+        <item>@string/Fuga</item>
+    </string-array>
+
+
+
+
 </resources>

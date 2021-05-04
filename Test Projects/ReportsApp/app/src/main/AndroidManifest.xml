@@ -8,7 +8,9 @@
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
+    
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -17,7 +19,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ReportsApp"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ResgitarActivity"></activity>
+        <activity android:name=".CreateReportActivity"></activity>
+        <activity android:name=".ResgitarActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
