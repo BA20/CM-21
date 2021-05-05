@@ -143,6 +143,7 @@ class CreateReportActivity : AppCompatActivity() {
                                 startActivity(intent)
                                 finish()
                             } else {
+
                                 Toast.makeText(
                                     this@CreateReportActivity,
                                     R.string.BadCreate,
