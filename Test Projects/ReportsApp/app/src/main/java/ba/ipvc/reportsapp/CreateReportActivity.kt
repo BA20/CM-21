@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Bitmap
+import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
@@ -18,6 +19,11 @@ import ba.ipvc.reportsapp.api.EndPoints
 import ba.ipvc.reportsapp.api.Report
 import ba.ipvc.reportsapp.api.outputReport
 import ba.ipvc.reportsapp.api.ServiceBuilder
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.maps.model.LatLng
 import kotlinx.android.synthetic.main.activity_create_report.*
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -30,10 +36,34 @@ import java.io.*
 class CreateReportActivity : AppCompatActivity() {
     private val REQUEST_CODE = 12
 
+    // add to implement last known location
+    private lateinit var lastLocation: Location
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
+    //added to implement location periodic updates
+    private lateinit var locationCallback: LocationCallback
+    private lateinit var locationRequest: LocationRequest
+
+    private lateinit var longitude: String;
+    private lateinit var latitude: String;
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_report)
 
+
+        locationCallback = object : LocationCallback() {
+            override fun onLocationResult(p0: LocationResult) {
+                super.onLocationResult(p0)
+                lastLocation = p0.lastLocation
+                latitude = (lastLocation.latitude).toString()
+                longitude = (lastLocation.longitude).toString()
+                Log.d("latitude", latitude.toString())
+                Log.d("longitude", longitude.toString())
+
+            }
+        }
         val spinner = findViewById<Spinner>(R.id.spinner)
         val adapter = ArrayAdapter.createFromResource(
             this,
@@ -43,7 +73,7 @@ class CreateReportActivity : AppCompatActivity() {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
 
-
+        //added to implement location periodic updates
 
 
         btnTakePicture.setOnClickListener {
@@ -95,6 +125,7 @@ class CreateReportActivity : AppCompatActivity() {
         val sharedPref: SharedPreferences = getSharedPreferences(
             getString(R.string.sharedPref), Context.MODE_PRIVATE
         )
+
         val intent = Intent(this, MapsActivity::class.java)
         val imgBitmap: Bitmap = findViewById<ImageView>(R.id.imageView).drawable.toBitmap()
         val imgFile: File = convertBitmapToFile("file", imgBitmap)
@@ -107,11 +138,6 @@ class CreateReportActivity : AppCompatActivity() {
         val rdesc = findViewById<EditText>(R.id.rdescricao).text.toString()
         val descricao: RequestBody =
             RequestBody.create(MediaType.parse("multipart/form-data"), rdesc)
-
-        //shared pref
-
-        val latitude: String? = sharedPref.getString(R.string.userloclat.toString(), "ERRO");
-        val longitude: String? = sharedPref.getString(R.string.userloclng.toString(), "ERRO");
 
 
         val lat: RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), latitude)
@@ -129,21 +155,26 @@ class CreateReportActivity : AppCompatActivity() {
 
         when {
             TextUtils.isEmpty(Rtitle.text) -> {
-                Toast.makeText(this@CreateReportActivity, R.string.TitleEmpty, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@CreateReportActivity, R.string.TitleEmpty, Toast.LENGTH_SHORT)
+                    .show()
             }
             TextUtils.isEmpty(rdescricao.text) -> {
-                Toast.makeText(this@CreateReportActivity, R.string.descEmpty, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@CreateReportActivity, R.string.descEmpty, Toast.LENGTH_SHORT)
+                    .show()
             }
             else -> {
-                call.enqueue(object : Callback<Report> {
-                    override fun onResponse(call: Call<Report>, response: Response<Report>) {
+                call.enqueue(object : Callback<outputReport> {
+                    override fun onResponse(
+                        call: Call<outputReport>,
+                        response: Response<outputReport>
+                    ) {
 
                         if (response.isSuccessful) {
                             if (response.body()!!.status) {
                                 startActivity(intent)
                                 finish()
                             } else {
-
+                                        Log.d("ERROUU", response.toString())
                                 Toast.makeText(
                                     this@CreateReportActivity,
                                     R.string.BadCreate,
@@ -155,17 +186,18 @@ class CreateReportActivity : AppCompatActivity() {
                     }
 
 
-
-                    override fun onFailure(call: Call<Report>, t: Throwable) {
-                        Toast.makeText(this@CreateReportActivity, "${t.message}", Toast.LENGTH_SHORT).show()
+                    override fun onFailure(call: Call<outputReport>, t: Throwable) {
+                        Toast.makeText(
+                            this@CreateReportActivity,
+                            "${t.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
                         Log.d("Errou", "${t.message}")
                     }
 
                 })
             }
         }
-
-
 
 
     }

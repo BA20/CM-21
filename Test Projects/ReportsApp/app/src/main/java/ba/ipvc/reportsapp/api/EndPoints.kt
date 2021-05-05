@@ -31,5 +31,5 @@ interface EndPoints {
         @Part("user_id") user_id: RequestBody,
         @Part("tipo") tipo: RequestBody
 
-    ): Call<Report>
+    ): Call<outputReport>
 }
