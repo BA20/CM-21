@@ -52,17 +52,16 @@ class CreateReportActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_report)
 
-
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(p0: LocationResult) {
                 super.onLocationResult(p0)
                 lastLocation = p0.lastLocation
-                latitude = (lastLocation.latitude).toString()
-                longitude = (lastLocation.longitude).toString()
-                Log.d("latitude", latitude.toString())
-                Log.d("longitude", longitude.toString())
-
+                val latLng = LatLng(lastLocation.latitude, lastLocation.longitude)
+                latitude = latLng.latitude
+                longitude = latLng.longitude
             }
+
         }
         val spinner = findViewById<Spinner>(R.id.spinner)
         val adapter = ArrayAdapter.createFromResource(
@@ -87,6 +86,9 @@ class CreateReportActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this, R.string.CameraErro, Toast.LENGTH_SHORT).show()
             }
+
+        }
+        createR.setOnClickListener{
 
         }
 
