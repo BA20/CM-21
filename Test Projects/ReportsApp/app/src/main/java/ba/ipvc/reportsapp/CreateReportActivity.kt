@@ -1,10 +1,12 @@
 package ba.ipvc.reportsapp
 
+import android.Manifest
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
@@ -14,15 +16,13 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.widget.*
+import androidx.core.app.ActivityCompat
 import androidx.core.graphics.drawable.toBitmap
 import ba.ipvc.reportsapp.api.EndPoints
 import ba.ipvc.reportsapp.api.Report
 import ba.ipvc.reportsapp.api.outputReport
 import ba.ipvc.reportsapp.api.ServiceBuilder
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.*
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.android.synthetic.main.activity_create_report.*
 import okhttp3.MediaType
@@ -35,34 +35,22 @@ import java.io.*
 
 class CreateReportActivity : AppCompatActivity() {
     private val REQUEST_CODE = 12
-
-    // add to implement last known location
-    private lateinit var lastLocation: Location
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
-
-    //added to implement location periodic updates
-    private lateinit var locationCallback: LocationCallback
     private lateinit var locationRequest: LocationRequest
-
-    private lateinit var longitude: String;
-    private lateinit var latitude: String;
-
-
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var locationCallback: LocationCallback
+    private lateinit var lastLocation: Location
+    var longitude: Double? = null
+    var latitude: Double? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_report)
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        locationCallback = object : LocationCallback() {
-            override fun onLocationResult(p0: LocationResult) {
-                super.onLocationResult(p0)
-                lastLocation = p0.lastLocation
-                val latLng = LatLng(lastLocation.latitude, lastLocation.longitude)
-                latitude = latLng.latitude
-                longitude = latLng.longitude
-            }
 
-        }
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+
+
         val spinner = findViewById<Spinner>(R.id.spinner)
         val adapter = ArrayAdapter.createFromResource(
             this,
@@ -72,7 +60,10 @@ class CreateReportActivity : AppCompatActivity() {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
 
-        //added to implement location periodic updates
+        buttonCancel.setOnClickListener {
+            finish()
+        }
+
 
 
         btnTakePicture.setOnClickListener {
@@ -88,13 +79,155 @@ class CreateReportActivity : AppCompatActivity() {
             }
 
         }
-        createR.setOnClickListener{
+        btnCreate.setOnClickListener {
+            val intent = Intent(this, MapsActivity::class.java)
+            val sharedPref: SharedPreferences = getSharedPreferences(
+                getString(R.string.sharedPref), Context.MODE_PRIVATE
+            )
+            Log.d("Passou", "1")
+            if (ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                return@setOnClickListener
+            }
+            fusedLocationClient.lastLocation.addOnSuccessListener(this) { location ->
+                if (location != null) {
+           /* locationCallback = object : LocationCallback() {
+                override fun onLocationResult(p0: LocationResult) {
+                    super.onLocationResult(p0)*/
+                    Log.d("Passou", "2")
+
+                    val latLng = LatLng(location.latitude, location.longitude)
+                    latitude = latLng.latitude
+                    longitude = latLng.longitude
+
+                    Log.d("Passou", "3")
+                    val imgBitmap: Bitmap = findViewById<ImageView>(R.id.imageView).drawable.toBitmap()
+                    val imgFile: File = convertBitmapToFile("file", imgBitmap)
+                    val imgFileRequest: RequestBody =
+                        RequestBody.create(MediaType.parse("image/*"), imgFile)
+                    val imagem: MultipartBody.Part =
+                        MultipartBody.Part.createFormData("imagem", imgFile.name, imgFileRequest)
+
+                    val rtitle = findViewById<EditText>(R.id.Rtitle).text.toString()
+                    val titulo: RequestBody =
+                        RequestBody.create(MediaType.parse("multipart/form-data"), rtitle)
+                    val rdesc = findViewById<EditText>(R.id.rdescricao).text.toString()
+                    val descricao: RequestBody =
+                        RequestBody.create(MediaType.parse("multipart/form-data"), rdesc)
+
+                    Log.d("latitude", latitude.toString())
+                    Log.d("longitude", longitude.toString())
+                    val lat: RequestBody =
+                        RequestBody.create(MediaType.parse("multipart/form-data"), latitude.toString())
+                    val lng: RequestBody =
+                        RequestBody.create(MediaType.parse("multipart/form-data"), longitude.toString())
+
+                    val user: Int = sharedPref.getInt(R.string.userlogged.toString(), 0)
+                    val userid = RequestBody.create(MediaType.parse("multipart/form-data"), user.toString())
+                    val tipo: RequestBody = RequestBody.create(
+                        MediaType.parse("multipart/form-data"),
+                        spinner.selectedItem.toString()
+                    )
+
+                    val request = ServiceBuilder.buildService(EndPoints::class.java)
+                    val call = request.createR(titulo, descricao, lat, lng, imagem, userid, tipo)
+
+                    when {
+                        TextUtils.isEmpty(Rtitle.text) -> {
+                            Toast.makeText(
+                                this@CreateReportActivity,
+                                R.string.TitleEmpty,
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                        }
+                        TextUtils.isEmpty(rdescricao.text) -> {
+                            Toast.makeText(
+                                this@CreateReportActivity,
+                                R.string.descEmpty,
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                        }
+                        else -> {
+                            call.enqueue(object : Callback<outputReport> {
+                                override fun onResponse(
+                                    call: Call<outputReport>,
+                                    response: Response<outputReport>
+                                ) {
+
+                                    if (response.isSuccessful) {
+                                        if (response.body()!!.status) {
+
+                                            Log.d("Passou", "mas")
+                                            finish()
+
+
+
+                                        } else {
+                                            Log.d("ERROUU", response.toString())
+                                            Toast.makeText(
+                                                this@CreateReportActivity,
+                                                R.string.BadCreate,
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        }
+                                    }
+
+                                }
+
+
+                                override fun onFailure(call: Call<outputReport>, t: Throwable) {
+                                    Toast.makeText(
+                                        this@CreateReportActivity,
+                                        "${t.message}",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                    Log.d("Errou", "${t.message}")
+                                }
+
+                            })
+                        }
+                    }
+
+
+
+
+                }
+            }
+
+
 
         }
 
 
     }
-
+   /* private fun startLocationUpdates() {
+        if (ActivityCompat.checkSelfPermission(
+                this@CreateReportActivity,
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this@CreateReportActivity,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                Companion.LOCATION_PERMISSION_REQUEST_CODE
+            )
+            return
+        }
+        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null)
+    }
+    private fun createLocationRequest() {
+        locationRequest = LocationRequest()
+        locationRequest.interval = 10000 //5 em 5 segundos
+        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+    }*/
 
     private fun convertBitmapToFile(fileName: String, bitmap: Bitmap): File {
         //create a file to write bitmap data
@@ -123,86 +256,6 @@ class CreateReportActivity : AppCompatActivity() {
         return file
     }
 
-    fun createR(view: View) {
-        val sharedPref: SharedPreferences = getSharedPreferences(
-            getString(R.string.sharedPref), Context.MODE_PRIVATE
-        )
-
-        val intent = Intent(this, MapsActivity::class.java)
-        val imgBitmap: Bitmap = findViewById<ImageView>(R.id.imageView).drawable.toBitmap()
-        val imgFile: File = convertBitmapToFile("file", imgBitmap)
-        val imgFileRequest: RequestBody = RequestBody.create(MediaType.parse("image/*"), imgFile)
-        val imagem: MultipartBody.Part =
-            MultipartBody.Part.createFormData("imagem", imgFile.name, imgFileRequest)
-
-        val rtitle = findViewById<EditText>(R.id.Rtitle).text.toString()
-        val titulo: RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), rtitle)
-        val rdesc = findViewById<EditText>(R.id.rdescricao).text.toString()
-        val descricao: RequestBody =
-            RequestBody.create(MediaType.parse("multipart/form-data"), rdesc)
-
-
-        val lat: RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), latitude)
-        val lng: RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), longitude)
-
-        val user: Int = sharedPref.getInt(R.string.userlogged.toString(), 0)
-        val userid = RequestBody.create(MediaType.parse("multipart/form-data"), user.toString())
-        val tipo: RequestBody = RequestBody.create(
-            MediaType.parse("multipart/form-data"),
-            spinner.selectedItem.toString()
-        )
-
-        val request = ServiceBuilder.buildService(EndPoints::class.java)
-        val call = request.createR(titulo, descricao, lat, lng, imagem, userid, tipo)
-
-        when {
-            TextUtils.isEmpty(Rtitle.text) -> {
-                Toast.makeText(this@CreateReportActivity, R.string.TitleEmpty, Toast.LENGTH_SHORT)
-                    .show()
-            }
-            TextUtils.isEmpty(rdescricao.text) -> {
-                Toast.makeText(this@CreateReportActivity, R.string.descEmpty, Toast.LENGTH_SHORT)
-                    .show()
-            }
-            else -> {
-                call.enqueue(object : Callback<outputReport> {
-                    override fun onResponse(
-                        call: Call<outputReport>,
-                        response: Response<outputReport>
-                    ) {
-
-                        if (response.isSuccessful) {
-                            if (response.body()!!.status) {
-                                startActivity(intent)
-                                finish()
-                            } else {
-                                        Log.d("ERROUU", response.toString())
-                                Toast.makeText(
-                                    this@CreateReportActivity,
-                                    R.string.BadCreate,
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                        }
-
-                    }
-
-
-                    override fun onFailure(call: Call<outputReport>, t: Throwable) {
-                        Toast.makeText(
-                            this@CreateReportActivity,
-                            "${t.message}",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        Log.d("Errou", "${t.message}")
-                    }
-
-                })
-            }
-        }
-
-
-    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
@@ -214,7 +267,14 @@ class CreateReportActivity : AppCompatActivity() {
 
 
     }
+    companion object {
+        private const val LOCATION_PERMISSION_REQUEST_CODE = 1
+    }
 
+    override fun onDestroy() {
+        super.onDestroy()
+
+    }
 }
 
 

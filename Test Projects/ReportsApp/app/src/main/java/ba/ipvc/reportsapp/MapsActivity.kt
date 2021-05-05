@@ -25,6 +25,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import kotlinx.android.synthetic.main.activity_maps.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -32,7 +33,7 @@ import retrofit2.Response
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
-    private lateinit var mMap: GoogleMap
+    private var mMap: GoogleMap?=null
     private lateinit var reports: List<Report>
 
     // add to implement last known location
@@ -43,9 +44,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var locationCallback: LocationCallback
     private lateinit var locationRequest: LocationRequest
 
-    //added to implement distance between two locations
-    private var continenteLat: Double = 0.0
-    private var continenteLong: Double = 0.0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -105,8 +103,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     // for ActivityCompat#requestPermissions for more details.
                     return
                 }
-                mMap.isMyLocationEnabled = true
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 15.0f))
+                mMap!!.isMyLocationEnabled = true
+                mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 15.0f))
                 // reverse geocoding
                 // val address = getAddress(lastLocation.latitude, lastLocation.longitude)
 
@@ -116,12 +114,25 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     "new location received - " + loc.latitude + " -" + loc.longitude
                 )
             }
+
         }
 
 
         // request creation
         createLocationRequest()
 
+        addReportButton.setOnClickListener(){
+            val intent = Intent(this, CreateReportActivity::class.java).apply {
+
+            }
+            startActivity(intent)
+        }
+
+
+    }
+
+    fun pontos(){
+        mMap!!.clear()
         val request = ServiceBuilder.buildService(EndPoints::class.java)
         val call = request.getReports()
         var position: LatLng
@@ -144,7 +155,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                         if (user != 0) {
                             if (report.user_id != user) {
                                 position = LatLng(report.lat.toDouble(), report.lng.toDouble())
-                                mMap.addMarker(
+                                mMap!!.addMarker(
                                     MarkerOptions().position(position)
                                         .title(report.titulo.toString() + " : " + report.descricao)
                                         .snippet(report.descricao).icon(
@@ -155,7 +166,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                                 )
                             } else {
                                 position = LatLng(report.lat.toDouble(), report.lng.toDouble())
-                                mMap.addMarker(
+                                mMap!!.addMarker(
                                     MarkerOptions().position(position)
                                         .title(report.titulo.toString() + " : " + report.descricao)
                                         .snippet(report.descricao).icon(
@@ -179,7 +190,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             }
 
         })
+
+
     }
+
+
 
 
     fun signout(view: View) {
@@ -197,14 +212,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         startActivity(intent)
         finish()
     }
-    fun criarR(view: View) {
-        val intent = Intent(this, CreateReportActivity::class.java)
 
-
-
-        startActivity(intent)
-
-    }
 
 
     /**
@@ -218,7 +226,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
      */
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-
+pontos()
         // Add a marker in Sydney and move the camera
         /*val sydney = LatLng(-34.0, 151.0)
         mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
@@ -271,6 +279,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     public override fun onResume() {
         super.onResume()
         startLocationUpdates()
+        if(mMap!=null){
+            pontos()
+        }
         Log.d("ONRESUME", "onResume - startLocationUpdates")
     }
     /*   private fun getAddress(lat: Double, lng: Double): String {
