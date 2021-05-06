@@ -27,7 +27,10 @@ class editReport : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_report)
         val ID = intent.getStringExtra(ID)
+
         val markinfos = ID?.split("+")?.toTypedArray()
+
+        val id = markinfos?.get(6);
         if (markinfos?.get(3).equals(markinfos?.get(4))) {
             val etitle = findViewById<TextView>(R.id.Etitle)
             val edesc = findViewById<TextView>(R.id.Edescricao)
@@ -50,7 +53,7 @@ class editReport : AppCompatActivity() {
         }
 
         btneditar.setOnClickListener() {
-            val id = markinfos?.get(6);
+
             val vtitle = findViewById<EditText>(R.id.Etitle).text.toString()
             val vdesc = findViewById<EditText>(R.id.Edescricao).text.toString()
             val request = ServiceBuilder.buildService(EndPoints::class.java)
@@ -100,7 +103,7 @@ class editReport : AppCompatActivity() {
         }
 
         btnDelete.setOnClickListener(){
-            val id = markinfos?.get(6);
+
             val request = ServiceBuilder.buildService(EndPoints::class.java)
             val call = request.deleteReport(id)
 
@@ -108,10 +111,12 @@ class editReport : AppCompatActivity() {
                 override fun onResponse(
                     call: Call<outputReport>,
                     response: Response<outputReport>
-                ) {Log.d("Tentei", "Entrar no editar")
+                ) {
+
 
                     if (response.isSuccessful) {
                         if (response.body()!!.status) {
+                            Log.d("HELP0","asdasd")
                             Toast.makeText(this@editReport, "${R.string.eliminado}", Toast.LENGTH_LONG).show()
                             finish()
                         } else {

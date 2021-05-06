@@ -91,6 +91,147 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     commit()
                 }
 
+                FiltrosButton5km.setOnClickListener() {
+                    mMap!!.clear()
+                    val request = ServiceBuilder.buildService(EndPoints::class.java)
+                    val call = request.getReports()
+                    var position: LatLng
+
+
+
+                    call.enqueue(object : Callback<List<Report>> {
+
+                        override fun onResponse(call: Call<List<Report>>, response: Response<List<Report>>) {
+                            val sharedPref: SharedPreferences = getSharedPreferences(
+                                getString(R.string.sharedPref), Context.MODE_PRIVATE
+                            )
+                            if (response.isSuccessful) {
+
+                                reports = response.body()!!
+                                for (report in reports) {
+
+                                    val user: Int = sharedPref.getInt(R.string.userlogged.toString(), 0)
+
+                                    if (user != 0) {
+                                        if (report.user_id != user) {
+                                            if (calculateDistance(loc.latitude,loc.longitude,report.lat,report.lng)<5000) {
+
+                                                position = LatLng(report.lat.toDouble(), report.lng.toDouble())
+                                                mMap!!.addMarker(
+                                                    MarkerOptions().position(position)
+                                                        .title(report.titulo)
+                                                        .snippet(report.titulo + " + " + report.descricao + "+" + report.tipo + "+" + report.user_id + "+" + user + "+" + report.imagem + "+" + report.id + "+" + report.lat + "+" + report.lng)
+                                                        .icon(
+                                                            BitmapDescriptorFactory.defaultMarker(
+                                                                BitmapDescriptorFactory.HUE_RED
+                                                            )
+                                                        )
+                                                )
+                                            }
+                                        } else {
+                                            if (calculateDistance(loc.latitude,loc.longitude,report.lat,report.lng)<5000) {
+                                                position = LatLng(report.lat.toDouble(), report.lng.toDouble())
+                                                mMap!!.addMarker(
+                                                    MarkerOptions().position(position)
+                                                        .title(report.titulo)
+                                                        .snippet(report.titulo + " + " + report.descricao + "+" + report.tipo + "+" + report.user_id + "+" + user + "+" + report.imagem + "+" + report.id + "+" + report.lat + "+" + report.lng)
+                                                        //0                   1                       2                       3              4                5                     6                   7                   8
+                                                        .icon(
+                                                            BitmapDescriptorFactory.defaultMarker(
+                                                                BitmapDescriptorFactory.HUE_BLUE
+                                                            )
+                                                        )
+
+                                                )
+                                            }
+
+                                        }
+
+
+                                    }
+                                }
+                            }
+                        }
+
+                        override fun onFailure(call: Call<List<Report>>, t: Throwable) {
+                            Toast.makeText(this@MapsActivity, "${t.message}", Toast.LENGTH_LONG).show()
+
+
+                        }
+
+                    })
+                }
+                FiltrosButton2km.setOnClickListener() {
+                    mMap!!.clear()
+                    val request = ServiceBuilder.buildService(EndPoints::class.java)
+                    val call = request.getReports()
+                    var position: LatLng
+
+
+
+                    call.enqueue(object : Callback<List<Report>> {
+
+                        override fun onResponse(call: Call<List<Report>>, response: Response<List<Report>>) {
+                            val sharedPref: SharedPreferences = getSharedPreferences(
+                                getString(R.string.sharedPref), Context.MODE_PRIVATE
+                            )
+                            if (response.isSuccessful) {
+
+                                reports = response.body()!!
+                                for (report in reports) {
+
+                                    val user: Int = sharedPref.getInt(R.string.userlogged.toString(), 0)
+
+                                    if (user != 0) {
+                                        if (report.user_id != user) {
+                                            if (calculateDistance(loc.latitude,loc.longitude,report.lat,report.lng)<2000) {
+
+                                                position = LatLng(report.lat.toDouble(), report.lng.toDouble())
+                                                mMap!!.addMarker(
+                                                    MarkerOptions().position(position)
+                                                        .title(report.titulo)
+                                                        .snippet(report.titulo + " + " + report.descricao + "+" + report.tipo + "+" + report.user_id + "+" + user + "+" + report.imagem + "+" + report.id + "+" + report.lat + "+" + report.lng)
+                                                        .icon(
+                                                            BitmapDescriptorFactory.defaultMarker(
+                                                                BitmapDescriptorFactory.HUE_RED
+                                                            )
+                                                        )
+                                                )
+                                            }
+                                        } else {
+                                            if (calculateDistance(loc.latitude,loc.longitude,report.lat,report.lng)<2000) {
+                                                position = LatLng(report.lat.toDouble(), report.lng.toDouble())
+                                                mMap!!.addMarker(
+                                                    MarkerOptions().position(position)
+                                                        .title(report.titulo)
+                                                        .snippet(report.titulo + " + " + report.descricao + "+" + report.tipo + "+" + report.user_id + "+" + user + "+" + report.imagem + "+" + report.id + "+" + report.lat + "+" + report.lng)
+                                                        //0                   1                       2                       3              4                5                     6                   7                   8
+                                                        .icon(
+                                                            BitmapDescriptorFactory.defaultMarker(
+                                                                BitmapDescriptorFactory.HUE_BLUE
+                                                            )
+                                                        )
+
+                                                )
+                                            }
+
+                                        }
+
+
+                                    }
+                                }
+                            }
+                        }
+
+                        override fun onFailure(call: Call<List<Report>>, t: Throwable) {
+                            Toast.makeText(this@MapsActivity, "${t.message}", Toast.LENGTH_LONG).show()
+
+
+                        }
+
+                    })
+                }
+
 
                 //mMap.addMarker(MarkerOptions().position(loc).title("Marker"))
                 if (ActivityCompat.checkSelfPermission(
@@ -153,7 +294,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
 
+
     }
+
 
     fun pontos() {
         Log.d("Pnts", "load")
@@ -409,7 +552,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                                     position = LatLng(report.lat.toDouble(), report.lng.toDouble())
                                     mMap!!.addMarker(
                                         MarkerOptions().position(position)
-                                            .title(report.titulo)
+                                            .title(report.id.toString())
                                             .snippet(report.titulo + " + " + report.descricao + "+" + report.tipo + "+" + report.user_id + "+" + user + "+" + report.imagem + "+" + report.id + "+" + report.lat + "+" + report.lng)
                                             //0                   1                       2                       3              4                5                     6                   7                   8
                                             .icon(
@@ -463,6 +606,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         if (mMap != null) {
             pontos()
             mMap!!.setInfoWindowAdapter(MarkerWindow(this))
+
             mMap!!.setOnInfoWindowClickListener { marker ->
                 val intent = Intent(this, editReport::class.java).apply {
                     putExtra(ID, marker.snippet.toString())
@@ -488,6 +632,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     //added to implement location periodic updates
     private fun startLocationUpdates() {
+
         if (ActivityCompat.checkSelfPermission(
                 this,
                 android.Manifest.permission.ACCESS_FINE_LOCATION
@@ -511,7 +656,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun createLocationRequest() {
         locationRequest = LocationRequest()
         // interval specifies the rate at which your app will like to receive updates.
-        locationRequest.interval = 10000
+        locationRequest.interval = 10000 // 5sec
         locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
     }
 
@@ -524,12 +669,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     public override fun onResume() {
         super.onResume()
         startLocationUpdates()
-        if (mMap != null) {
-            pontos()
-            mMap!!.setInfoWindowAdapter(MarkerWindow(this))
 
-        }
-        Log.d("ONRESUMEEE", "onResume - startLocationUpdates")
     }
 
 
@@ -537,6 +677,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val geocoder = Geocoder(this)
         val list = geocoder.getFromLocation(lat, lng, 1)
         return list[0].getAddressLine(0)
+    }
+    fun calculateDistance(lat1: Double, lng1: Double, lat2: Double, lng2: Double): Float {
+        val results = FloatArray(1)
+        Location.distanceBetween(lat1, lng1, lat2, lng2, results)
+        // distance in meter
+        return results[0]
     }
 
 }

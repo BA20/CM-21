@@ -101,7 +101,7 @@
         android:layout_marginRight="275dp"
         android:backgroundTint="@color/white"
         android:clickable="true"
-        android:onClick="showPopup"
+
         android:text="@string/waterlake"
         app:srcCompat="@drawable/ic_baseline_filter_list_24"
         tools:ignore="VectorDrawableCompat" />
@@ -118,8 +118,42 @@
         android:layout_marginRight="275dp"
         android:backgroundTint="@color/white"
         android:clickable="true"
-        android:onClick="showPopup"
+
         android:text="@string/all"
+        app:srcCompat="@drawable/ic_baseline_filter_list_24"
+        tools:ignore="VectorDrawableCompat" />
+    <Button
+        android:id="@+id/FiltrosButton5km"
+        android:layout_width="141dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/FiltrosButtonall"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="-6dp"
+
+        android:layout_marginEnd="275dp"
+        android:layout_marginRight="275dp"
+        android:backgroundTint="@color/white"
+        android:clickable="true"
+
+        android:text="@string/km"
+        app:srcCompat="@drawable/ic_baseline_filter_list_24"
+        tools:ignore="VectorDrawableCompat" />
+    <Button
+        android:id="@+id/FiltrosButton2km"
+        android:layout_width="141dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/FiltrosButton5km"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="-6dp"
+
+        android:layout_marginEnd="275dp"
+        android:layout_marginRight="275dp"
+        android:backgroundTint="@color/white"
+        android:clickable="true"
+
+        android:text="@string/kms"
         app:srcCompat="@drawable/ic_baseline_filter_list_24"
         tools:ignore="VectorDrawableCompat" />
 

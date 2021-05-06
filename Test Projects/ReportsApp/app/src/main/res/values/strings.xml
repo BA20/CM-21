@@ -44,6 +44,8 @@
     <string name="hole">Hole</string>
     <string name="waterlake">Water Leake</string>
     <string name="all">All Reports</string>
+    <string name="km">5 KM</string>
+    <string name="kms">2 KM</string>
 
     <string-array name="tipos">
         <item>@string/obras</item>
