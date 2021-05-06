@@ -77,7 +77,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
                 lastLocation = p0.lastLocation
                 var loc = LatLng(lastLocation.latitude, lastLocation.longitude)
-                Log.d("LOC", "${loc}")
+                Log.d("LOCa", "${loc}")
                 with(sharedPref.edit()) {
                     putString(
                         ba.ipvc.reportsapp.R.string.userloclat.toString(),
