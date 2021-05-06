@@ -84,7 +84,7 @@ class CreateReportActivity : AppCompatActivity() {
             val sharedPref: SharedPreferences = getSharedPreferences(
                 getString(R.string.sharedPref), Context.MODE_PRIVATE
             )
-            Log.d("Passou", "1")
+
             if (ActivityCompat.checkSelfPermission(
                     this,
                     Manifest.permission.ACCESS_FINE_LOCATION
@@ -100,13 +100,13 @@ class CreateReportActivity : AppCompatActivity() {
            /* locationCallback = object : LocationCallback() {
                 override fun onLocationResult(p0: LocationResult) {
                     super.onLocationResult(p0)*/
-                    Log.d("Passou", "2")
+
 
                     val latLng = LatLng(location.latitude, location.longitude)
                     latitude = latLng.latitude
                     longitude = latLng.longitude
 
-                    Log.d("Passou", "3")
+
                     val imgBitmap: Bitmap = findViewById<ImageView>(R.id.imageView).drawable.toBitmap()
                     val imgFile: File = convertBitmapToFile("file", imgBitmap)
                     val imgFileRequest: RequestBody =
@@ -121,8 +121,7 @@ class CreateReportActivity : AppCompatActivity() {
                     val descricao: RequestBody =
                         RequestBody.create(MediaType.parse("multipart/form-data"), rdesc)
 
-                    Log.d("latitude", latitude.toString())
-                    Log.d("longitude", longitude.toString())
+
                     val lat: RequestBody =
                         RequestBody.create(MediaType.parse("multipart/form-data"), latitude.toString())
                     val lng: RequestBody =

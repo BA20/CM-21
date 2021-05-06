@@ -20,6 +20,14 @@ interface EndPoints {
     @POST("userRegister")
     fun register(@Field("user") first: String?, @Field("pass") second: String?): Call<SignUp>
 
+    @FormUrlEncoded
+    @POST("deleteReport")
+    fun deleteReport(@Field("id") first: String?): Call<outputReport>
+    @FormUrlEncoded
+    @POST("updateR")
+    fun updateReport(@Field("id") first: String?, @Field("titulo") second: String?, @Field("descricao")last: String?): Call<outputReport>
+
+
     @Multipart
     @POST("createR")
     fun createR(

@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.edit
+import ba.ipvc.reportsapp.adapter.ID
 import ba.ipvc.reportsapp.api.EndPoints
 import ba.ipvc.reportsapp.api.Report
 import ba.ipvc.reportsapp.api.ServiceBuilder
@@ -24,6 +25,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.activity_maps.*
 import retrofit2.Call
@@ -33,7 +35,7 @@ import retrofit2.Response
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
-    private var mMap: GoogleMap?=null
+    private var mMap: GoogleMap? = null
     private lateinit var reports: List<Report>
 
     // add to implement last known location
@@ -45,7 +47,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var locationRequest: LocationRequest
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
@@ -55,7 +56,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
 
 
-        Log.d("MAPAS", "entrou");
+
+
+
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         //added to implement location periodic updates
@@ -113,6 +116,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     "LOCATION CALLBACK",
                     "new location received - " + loc.latitude + " -" + loc.longitude
                 )
+
             }
 
         }
@@ -121,7 +125,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         // request creation
         createLocationRequest()
 
-        addReportButton.setOnClickListener(){
+        addReportButton.setOnClickListener() {
             val intent = Intent(this, CreateReportActivity::class.java).apply {
 
             }
@@ -131,7 +135,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     }
 
-    fun pontos(){
+    fun pontos() {
+        Log.d("Pnts", "load")
         mMap!!.clear()
         val request = ServiceBuilder.buildService(EndPoints::class.java)
         val call = request.getReports()
@@ -149,16 +154,18 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
                     reports = response.body()!!
                     for (report in reports) {
-
+                        Log.d("IMA", report.imagem.toString())
                         val user: Int = sharedPref.getInt(R.string.userlogged.toString(), 0)
 
                         if (user != 0) {
                             if (report.user_id != user) {
+
                                 position = LatLng(report.lat.toDouble(), report.lng.toDouble())
                                 mMap!!.addMarker(
                                     MarkerOptions().position(position)
-                                        .title(report.titulo.toString() + " : " + report.descricao)
-                                        .snippet(report.descricao).icon(
+                                        .title(report.titulo)
+                                        .snippet(report.titulo + " + " + report.descricao + "+" + report.tipo + "+" + report.user_id + "+" + user + "+" + report.imagem + "+" + report.id + "+" + report.lat + "+" + report.lng)
+                                        .icon(
                                             BitmapDescriptorFactory.defaultMarker(
                                                 BitmapDescriptorFactory.HUE_RED
                                             )
@@ -168,13 +175,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                                 position = LatLng(report.lat.toDouble(), report.lng.toDouble())
                                 mMap!!.addMarker(
                                     MarkerOptions().position(position)
-                                        .title(report.titulo.toString() + " : " + report.descricao)
-                                        .snippet(report.descricao).icon(
+                                        .title(report.titulo)
+                                        .snippet(report.titulo + " + " + report.descricao + "+" + report.tipo + "+" + report.user_id + "+" + user + "+" + report.imagem + "+" + report.id + "+" + report.lat + "+" + report.lng)
+                                        //0                   1                       2                       3              4                5                     6                   7                   8
+                                        .icon(
                                             BitmapDescriptorFactory.defaultMarker(
                                                 BitmapDescriptorFactory.HUE_BLUE
                                             )
                                         )
+
                                 )
+
                             }
 
 
@@ -195,8 +206,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
 
-
-
     fun signout(view: View) {
         val intent = Intent(this, Login_Notes::class.java)
 
@@ -214,19 +223,23 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
 
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-pontos()
+
+
+
+        if (mMap != null) {
+            pontos()
+            mMap!!.setInfoWindowAdapter(MarkerWindow(this))
+            mMap!!.setOnInfoWindowClickListener { marker ->
+                val intent = Intent(this, editReport::class.java).apply {
+                    putExtra(ID, marker.snippet.toString())
+
+
+                }
+                startActivity(intent)
+            }
+        }
         // Add a marker in Sydney and move the camera
         /*val sydney = LatLng(-34.0, 151.0)
         mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
@@ -279,11 +292,15 @@ pontos()
     public override fun onResume() {
         super.onResume()
         startLocationUpdates()
-        if(mMap!=null){
+        if (mMap != null) {
             pontos()
+            mMap!!.setInfoWindowAdapter(MarkerWindow(this))
+
         }
         Log.d("ONRESUME", "onResume - startLocationUpdates")
     }
+
+
     /*   private fun getAddress(lat: Double, lng: Double): String {
            val geocoder = Geocoder(this)
            val list = geocoder.getFromLocation(lat, lng, 1)

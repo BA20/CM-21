@@ -10,10 +10,17 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-feature android:name="android.hardware.camera"
+
+    <uses-feature
+        android:name="android.hardware.camera"
         android:required="true" />
 
-    
+    <queries>
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+    </queries>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -22,7 +29,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ReportsApp"
         android:usesCleartextTraffic="true">
-        <activity android:name=".CreateReportActivity"></activity>
+        <activity android:name=".editReport"></activity>
+        <activity android:name=".CreateReportActivity" />
         <activity android:name=".ResgitarActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -52,9 +60,4 @@
         </activity>
     </application>
 
-    <queries>
-        <intent>
-            <action android:name="android.media.action.IMAGE_CAPTURE" />
-        </intent>
-    </queries>
 </manifest>
