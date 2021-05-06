@@ -282,7 +282,7 @@ pontos()
         if(mMap!=null){
             pontos()
         }
-        Log.d("ONRESUME", "onResume - startLocationUpdates")
+        Log.d("ONRESUMEEE", "onResume - startLocationUpdates")
     }
     /*   private fun getAddress(lat: Double, lng: Double): String {
            val geocoder = Geocoder(this)
