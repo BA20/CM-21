@@ -19,4 +19,8 @@
     <string name="BadResgister">Erro no Registo!</string>
     <string name="signup">Registar</string>
     <string name="title_activity_maps">Mapa</string>
+    <string name="CreateReport">Criar Report</string>
+    <string name="obras">Obras</string>
+    <string name="Buraco">Buraco</string>
+    <string name="Fuga">Fuga de água</string>
 </resources>

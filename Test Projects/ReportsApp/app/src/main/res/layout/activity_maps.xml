@@ -26,11 +26,13 @@
         android:layout_marginBottom="28dp"
         android:backgroundTint="@color/white"
         android:clickable="true"
+
         app:srcCompat="@drawable/ic_baseline_add_circle_24"
         tools:ignore="VectorDrawableCompat" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/SingOUTButton"
+        android:onClick="signout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
