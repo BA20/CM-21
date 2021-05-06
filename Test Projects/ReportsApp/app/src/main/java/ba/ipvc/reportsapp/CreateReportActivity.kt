@@ -164,7 +164,7 @@ class CreateReportActivity : AppCompatActivity() {
                                     if (response.isSuccessful) {
                                         if (response.body()!!.status) {
 
-                                            Log.d("Passou", "mas")
+
                                             finish()
 
 
@@ -188,7 +188,7 @@ class CreateReportActivity : AppCompatActivity() {
                                         "${t.message}",
                                         Toast.LENGTH_SHORT
                                     ).show()
-                                    Log.d("Errou", "${t.message}")
+
                                 }
 
                             })
