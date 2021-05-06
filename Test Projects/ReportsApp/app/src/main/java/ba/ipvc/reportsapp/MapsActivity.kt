@@ -6,10 +6,13 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
-import android.view.View
+import android.view.*
+import android.widget.AdapterView
+import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -50,6 +53,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
+        //setSupportActionBar(findViewById(R.id.my_toolbar))
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
@@ -133,6 +137,22 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
 
+
+        FiltrosButtonConts.setOnClickListener() {
+            filtro_const()
+        }
+        FiltrosButtonHole.setOnClickListener() {
+            filtro_hole()
+        }
+
+        FiltrosButtonwater.setOnClickListener() {
+            filtro_water()
+        }
+        FiltrosButtonall.setOnClickListener() {
+            pontos()
+        }
+
+
     }
 
     fun pontos() {
@@ -205,6 +225,218 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     }
 
+    fun filtro_const() {
+        mMap!!.clear()
+        val request = ServiceBuilder.buildService(EndPoints::class.java)
+        val call = request.getReports()
+        var position: LatLng
+
+
+
+        call.enqueue(object : Callback<List<Report>> {
+
+            override fun onResponse(call: Call<List<Report>>, response: Response<List<Report>>) {
+                val sharedPref: SharedPreferences = getSharedPreferences(
+                    getString(R.string.sharedPref), Context.MODE_PRIVATE
+                )
+                if (response.isSuccessful) {
+
+                    reports = response.body()!!
+                    for (report in reports) {
+
+                        val user: Int = sharedPref.getInt(R.string.userlogged.toString(), 0)
+
+                        if (user != 0) {
+                            if (report.user_id != user) {
+                                if (report.tipo == "Contruction") {
+                                    Log.d("Contruction", report.tipo.toString())
+                                    position = LatLng(report.lat.toDouble(), report.lng.toDouble())
+                                    mMap!!.addMarker(
+                                        MarkerOptions().position(position)
+                                            .title(report.titulo)
+                                            .snippet(report.titulo + " + " + report.descricao + "+" + report.tipo + "+" + report.user_id + "+" + user + "+" + report.imagem + "+" + report.id + "+" + report.lat + "+" + report.lng)
+                                            .icon(
+                                                BitmapDescriptorFactory.defaultMarker(
+                                                    BitmapDescriptorFactory.HUE_RED
+                                                )
+                                            )
+                                    )
+                                }
+                            } else {
+                                if (report.tipo == "Contruction") {
+                                    position = LatLng(report.lat.toDouble(), report.lng.toDouble())
+                                    mMap!!.addMarker(
+                                        MarkerOptions().position(position)
+                                            .title(report.titulo)
+                                            .snippet(report.titulo + " + " + report.descricao + "+" + report.tipo + "+" + report.user_id + "+" + user + "+" + report.imagem + "+" + report.id + "+" + report.lat + "+" + report.lng)
+                                            //0                   1                       2                       3              4                5                     6                   7                   8
+                                            .icon(
+                                                BitmapDescriptorFactory.defaultMarker(
+                                                    BitmapDescriptorFactory.HUE_BLUE
+                                                )
+                                            )
+
+                                    )
+                                }
+
+                            }
+
+
+                        }
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<List<Report>>, t: Throwable) {
+                Toast.makeText(this@MapsActivity, "${t.message}", Toast.LENGTH_LONG).show()
+
+
+            }
+
+        })
+    }
+
+    fun filtro_hole() {
+        mMap!!.clear()
+        val request = ServiceBuilder.buildService(EndPoints::class.java)
+        val call = request.getReports()
+        var position: LatLng
+
+
+
+        call.enqueue(object : Callback<List<Report>> {
+
+            override fun onResponse(call: Call<List<Report>>, response: Response<List<Report>>) {
+                val sharedPref: SharedPreferences = getSharedPreferences(
+                    getString(R.string.sharedPref), Context.MODE_PRIVATE
+                )
+                if (response.isSuccessful) {
+
+                    reports = response.body()!!
+                    for (report in reports) {
+                        Log.d("IMA", report.imagem.toString())
+                        val user: Int = sharedPref.getInt(R.string.userlogged.toString(), 0)
+
+                        if (user != 0) {
+                            if (report.user_id != user) {
+                                if (report.tipo == "Hole") {
+
+                                    position = LatLng(report.lat.toDouble(), report.lng.toDouble())
+                                    mMap!!.addMarker(
+                                        MarkerOptions().position(position)
+                                            .title(report.titulo)
+                                            .snippet(report.titulo + " + " + report.descricao + "+" + report.tipo + "+" + report.user_id + "+" + user + "+" + report.imagem + "+" + report.id + "+" + report.lat + "+" + report.lng)
+                                            .icon(
+                                                BitmapDescriptorFactory.defaultMarker(
+                                                    BitmapDescriptorFactory.HUE_RED
+                                                )
+                                            )
+                                    )
+                                }
+                            } else {
+                                if (report.tipo == "Hole") {
+                                    position = LatLng(report.lat.toDouble(), report.lng.toDouble())
+                                    mMap!!.addMarker(
+                                        MarkerOptions().position(position)
+                                            .title(report.titulo)
+                                            .snippet(report.titulo + " + " + report.descricao + "+" + report.tipo + "+" + report.user_id + "+" + user + "+" + report.imagem + "+" + report.id + "+" + report.lat + "+" + report.lng)
+                                            //0                   1                       2                       3              4                5                     6                   7                   8
+                                            .icon(
+                                                BitmapDescriptorFactory.defaultMarker(
+                                                    BitmapDescriptorFactory.HUE_BLUE
+                                                )
+                                            )
+
+                                    )
+                                }
+
+                            }
+
+
+                        }
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<List<Report>>, t: Throwable) {
+                Toast.makeText(this@MapsActivity, "${t.message}", Toast.LENGTH_LONG).show()
+
+
+            }
+
+        })
+    }
+
+    fun filtro_water() {
+        mMap!!.clear()
+        val request = ServiceBuilder.buildService(EndPoints::class.java)
+        val call = request.getReports()
+        var position: LatLng
+
+
+
+        call.enqueue(object : Callback<List<Report>> {
+
+            override fun onResponse(call: Call<List<Report>>, response: Response<List<Report>>) {
+                val sharedPref: SharedPreferences = getSharedPreferences(
+                    getString(R.string.sharedPref), Context.MODE_PRIVATE
+                )
+                if (response.isSuccessful) {
+
+                    reports = response.body()!!
+                    for (report in reports) {
+                        Log.d("IMA", report.imagem.toString())
+                        val user: Int = sharedPref.getInt(R.string.userlogged.toString(), 0)
+
+                        if (user != 0) {
+                            if (report.user_id != user) {
+                                if (report.tipo == "Water Leak") {
+                                    Log.d("water", report.tipo)
+                                    position = LatLng(report.lat.toDouble(), report.lng.toDouble())
+                                    mMap!!.addMarker(
+                                        MarkerOptions().position(position)
+                                            .title(report.titulo)
+                                            .snippet(report.titulo + " + " + report.descricao + "+" + report.tipo + "+" + report.user_id + "+" + user + "+" + report.imagem + "+" + report.id + "+" + report.lat + "+" + report.lng)
+                                            .icon(
+                                                BitmapDescriptorFactory.defaultMarker(
+                                                    BitmapDescriptorFactory.HUE_RED
+                                                )
+                                            )
+                                    )
+                                }
+                            } else {
+                                if (report.tipo == "Water Leak") {
+                                    position = LatLng(report.lat.toDouble(), report.lng.toDouble())
+                                    mMap!!.addMarker(
+                                        MarkerOptions().position(position)
+                                            .title(report.titulo)
+                                            .snippet(report.titulo + " + " + report.descricao + "+" + report.tipo + "+" + report.user_id + "+" + user + "+" + report.imagem + "+" + report.id + "+" + report.lat + "+" + report.lng)
+                                            //0                   1                       2                       3              4                5                     6                   7                   8
+                                            .icon(
+                                                BitmapDescriptorFactory.defaultMarker(
+                                                    BitmapDescriptorFactory.HUE_BLUE
+                                                )
+                                            )
+
+                                    )
+                                }
+
+                            }
+
+
+                        }
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<List<Report>>, t: Throwable) {
+                Toast.makeText(this@MapsActivity, "${t.message}", Toast.LENGTH_LONG).show()
+
+
+            }
+
+        })
+    }
 
     fun signout(view: View) {
         val intent = Intent(this, Login_Notes::class.java)
@@ -301,10 +533,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
 
-    /*   private fun getAddress(lat: Double, lng: Double): String {
-           val geocoder = Geocoder(this)
-           val list = geocoder.getFromLocation(lat, lng, 1)
-           return list[0].getAddressLine(0)
-       }*/
+    private fun getAddress(lat: Double, lng: Double): String {
+        val geocoder = Geocoder(this)
+        val list = geocoder.getFromLocation(lat, lng, 1)
+        return list[0].getAddressLine(0)
+    }
 
 }

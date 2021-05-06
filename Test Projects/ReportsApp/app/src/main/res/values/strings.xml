@@ -40,6 +40,10 @@
     <string name="editado">Sucessful Edit !</string>
     <string name="eliminado">Deleted!</string>
     <string name="baddelete">Can\'t delete!</string>
+    <string name="constructions">Constructions</string>
+    <string name="hole">Hole</string>
+    <string name="waterlake">Water Leake</string>
+    <string name="all">All Reports</string>
 
     <string-array name="tipos">
         <item>@string/obras</item>

@@ -1,17 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/colorPrimary"
+    >
+
+</androidx.appcompat.widget.Toolbar>
+
 
     <fragment
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
         tools:context=".MapsActivity" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -32,18 +41,86 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/SingOUTButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="7dp"
+        android:layout_marginRight="7dp"
+        android:backgroundTint="@color/white"
+        android:clickable="true"
         android:onClick="signout"
+        app:srcCompat="@drawable/ic_baseline_exit_to_app_24"
+        tools:ignore="VectorDrawableCompat" />
+
+    <Button
+        android:id="@+id/FiltrosButtonConts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="21dp"
-        android:layout_marginEnd="21dp"
-        android:layout_marginRight="21dp"
+        android:layout_marginTop="-4dp"
+        android:layout_marginEnd="275dp"
+        android:layout_marginRight="275dp"
         android:backgroundTint="@color/white"
         android:clickable="true"
-        app:srcCompat="@drawable/ic_baseline_exit_to_app_24"
+        android:onClick="showPopup"
+        android:text="@string/constructions"
+        app:srcCompat="@drawable/ic_baseline_filter_list_24"
+        tools:ignore="VectorDrawableCompat" />
+
+    <Button
+        android:id="@+id/FiltrosButtonHole"
+        android:layout_width="134dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/FiltrosButtonConts"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="-6dp"
+        android:layout_marginEnd="275dp"
+        android:layout_marginRight="275dp"
+        android:backgroundTint="@color/white"
+        android:clickable="true"
+        android:onClick="showPopup"
+        android:text="@string/hole"
+        app:srcCompat="@drawable/ic_baseline_filter_list_24"
+        tools:ignore="VectorDrawableCompat" />
+
+    <Button
+        android:id="@+id/FiltrosButtonwater"
+        android:layout_width="141dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/FiltrosButtonHole"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="-6dp"
+        android:layout_marginEnd="275dp"
+        android:layout_marginRight="275dp"
+        android:backgroundTint="@color/white"
+        android:clickable="true"
+        android:onClick="showPopup"
+        android:text="@string/waterlake"
+        app:srcCompat="@drawable/ic_baseline_filter_list_24"
+        tools:ignore="VectorDrawableCompat" />
+    <Button
+        android:id="@+id/FiltrosButtonall"
+        android:layout_width="141dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/FiltrosButtonwater"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="-6dp"
+
+        android:layout_marginEnd="275dp"
+        android:layout_marginRight="275dp"
+        android:backgroundTint="@color/white"
+        android:clickable="true"
+        android:onClick="showPopup"
+        android:text="@string/all"
+        app:srcCompat="@drawable/ic_baseline_filter_list_24"
         tools:ignore="VectorDrawableCompat" />
 
 </RelativeLayout>

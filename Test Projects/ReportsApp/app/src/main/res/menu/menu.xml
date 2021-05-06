@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/all"
+        android:icon="@drawable/ic_baseline_close_24"
+        android:title="@string/all"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/constructions"
+        android:icon="@drawable/ic_baseline_close_24"
+        android:title="@string/constructions"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/hole"
+        android:icon="@drawable/ic_baseline_close_24"
+        android:title="@string/hole"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/waterlake"
+        android:icon="@drawable/ic_baseline_close_24"
+        android:title="@string/waterlake"
+        app:showAsAction="ifRoom" />
+
+</menu>

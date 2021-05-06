@@ -39,8 +39,7 @@ class MarkerWindow(context: Context) : GoogleMap.InfoWindowAdapter {
         vdesc.text = markinfos[1]
         vtipo.text = markinfos[2]
         vuser.text = markinfos[3]
-        Log.d("amrks 1", markinfos.toString())
-Log.d("amrks", markinfos[2].toString())
+
 
         Picasso.get()
             .load("https://reportsappbernardo.000webhostapp.com/myslim/api/img/" + markinfos[5] + ".png")
