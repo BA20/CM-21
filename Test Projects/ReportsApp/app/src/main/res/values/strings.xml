@@ -20,9 +20,9 @@
     <string name="BadResgister">Register Error!</string>
     <string name="signup">Sign Up</string>
     <string name="CreateReport">Create Report</string>
-    <string name="userloc" translatable="false"/>
-    <string name="userloclat" translatable="false"/>
-    <string name="userloclng" translatable="false"/>
+    <string name="userloc" translatable="false" />
+    <string name="userloclat" translatable="false" />
+    <string name="userloclng" translatable="false" />
     <string name="criarReport">Create Report</string>
 
 
@@ -33,14 +33,19 @@
     <string name="TitleEmpty">Title Empty</string>
     <string name="descEmpty">Description Empty</string>
     <string name="BadCreate">Error Creating Report</string>
+    <string name="eliminar">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="falhaimg">Erro loading Image</string>
+    <string name="noedit">Can\'t Edit this Report</string>
+    <string name="editado">Sucessful Edit !</string>
+    <string name="eliminado">Deleted!</string>
+    <string name="baddelete">Can\'t delete!</string>
 
     <string-array name="tipos">
         <item>@string/obras</item>
         <item>@string/Buraco</item>
         <item>@string/Fuga</item>
     </string-array>
-
-
 
 
 </resources>
